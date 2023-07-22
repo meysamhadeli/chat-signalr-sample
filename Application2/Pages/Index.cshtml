@@ -1,0 +1,48 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Real-Time Chat with SignalR</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.13/signalr.min.js"></script>
+</head>
+<body>
+    <div>
+        <input type="text" id="message" style="height: 30px; width: 300px"/>
+        <button id="sendButton" style="height: 35px; width: 100px">Send</button>
+    </div>
+    <div id="output" style="font-size: 16px"></div>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+        connection.on("ReceiveDataInApp1", function (data) {
+            $("#output").append("<p>" + data + "</p>");
+        });
+        
+        function sendDataToApp2() {
+            const data = document.getElementById("message").value;
+            connection.invoke("SendDataToApp2", data).catch(err => console.error(err));
+        }
+
+        $("#sendButton").click(function () {
+            var message = $("#message").val();
+            connection.invoke("SendDataToApp2", message);
+            $("#message").val("").focus();
+        });
+
+        connection.start().then(function () {
+            console.log("Connected!");
+        }).catch(function (err) {
+            console.error(err.toString());
+        });
+    </script>
+</body>
+</html>
+
