@@ -41,6 +41,7 @@ namespace Application1
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
             var data = InputTextBox.Text;
+            
             _connection.InvokeAsync("SendDataToApp1", data);
 
             InputTextBox.Text = string.Empty;

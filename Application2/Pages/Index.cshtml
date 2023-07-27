@@ -1,25 +1,26 @@
 ﻿@page
-@model IndexModel
+@model Application2.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
-    Layout = null;
+    Layout = "Shared/_Layout";
 }
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Real-Time Chat with SignalR</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.13/signalr.min.js"></script>
 </head>
 <body>
-    <div>
-        <input type="text" id="message" style="height: 30px; width: 300px"/>
-        <button id="sendButton" style="height: 35px; width: 100px">Send</button>
+
+<div class="input-group mb-3 custom-width">
+    <input type="text" class="form-control" placeholder="Type Your Message" id="message">
+    <div class="input-group-append">
+        <span class="input-group-text" id="sendButton">Send</span>
     </div>
-    <div id="output" style="font-size: 16px"></div>
-    <script>
+</div>
+
+<div id="output"></div>
+<script>
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
         connection.on("ReceiveDataInApp1", function (data) {
@@ -45,4 +46,3 @@
     </script>
 </body>
 </html>
-
