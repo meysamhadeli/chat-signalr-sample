@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Application1
@@ -7,7 +6,6 @@ namespace Application1
     public partial class MainWindow : Window
     {
         private readonly HubConnection _connection;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -31,9 +29,13 @@ namespace Application1
 
             _connection.StartAsync().ContinueWith(task =>
             {
-                if (task.Exception != null)
+                if (task is { IsFaulted: true, Exception.InnerException: { } }) Helpers.HandleException(task.Exception.InnerException);
+                else
                 {
-                    MessageBox.Show("Error connecting to the server: " + task.Exception.Message);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Helpers.ShowAlert("Connected desktop client to the server!");
+                    });
                 }
             });
         }
@@ -42,9 +44,15 @@ namespace Application1
         {
             var data = InputTextBox.Text;
             
-            _connection.InvokeAsync("SendDataToApp1", data);
-
+            _connection.InvokeAsync("SendDataToApp1", data)
+                .ContinueWith(task =>
+                {
+                    if (task is { IsFaulted: true, Exception.InnerException: { } }) Helpers.HandleException(task.Exception.InnerException);
+                });
+            
             InputTextBox.Text = string.Empty;
         }
+        
+
     }
 }

@@ -21,11 +21,33 @@
 
 <div id="output"></div>
 <script>
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        let connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
         connection.on("ReceiveDataInApp1", function (data) {
             $("#output").append("<p>" + data + "</p>");
         });
+        
+        connection.on("HandleError_ReceiveDataInApp1", function (errorMessage) {
+                        // Display the error message using a toast notification
+                        Toastify({
+                            text: errorMessage,
+                            duration: 5000, // 5 seconds
+                            gravity: "top", // Position on the top of the page
+                            backgroundColor: "#c8102e", // Red background color
+                            close: true // Show a close button
+                        }).showToast();
+        });
+        
+        connection.on("HandleError_ReceiveDataInApp2", function (errorMessage) {
+                       // Display the error message using a toast notification
+                       Toastify({
+                           text: errorMessage,
+                           duration: 5000, // 5 seconds
+                           gravity: "top", // Position on the top of the page
+                           backgroundColor: "#c8102e", // Red background color
+                           close: true // Show a close button
+                       }).showToast();
+        });        
         
         function sendDataToApp2() {
             const data = document.getElementById("message").value;
@@ -33,15 +55,29 @@
         }
 
         $("#sendButton").click(function () {
-            var message = $("#message").val();
+            let message = $("#message").val();
             connection.invoke("SendDataToApp2", message);
             $("#message").val("").focus();
         });
 
         connection.start().then(function () {
-            console.log("Connected!");
+                       // Display the error message using a toast notification
+                       Toastify({
+                           text: "Server Connected!",
+                           duration: 5000, // 5 seconds
+                           gravity: "top", // Position on the top of the page
+                           backgroundColor: "#05a152", // Green background color
+                           close: true // Show a close button
+                       }).showToast();            
         }).catch(function (err) {
-            console.error(err.toString());
+                       // Display the error message using a toast notification
+                       Toastify({
+                           text: err.toString(),
+                           duration: 5000, // 5 seconds
+                           gravity: "top", // Position on the top of the page
+                           backgroundColor: "#c8102e", // Red background color
+                           close: true // Show a close button
+                       }).showToast();
         });
     </script>
 </body>
