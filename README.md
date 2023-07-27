@@ -5,7 +5,7 @@
 - SignalR has a scalable mechanism for server and we can scale our server for handling high load traffic.
 
 
-<a href="https://gitpod.io/#https://github.com/meysamhadeli/chat-signalar-sample"><img alt="Open in Gitpod" src="https://gitpod.io/button/open-in-gitpod.svg"/></a>
+<a href="https://gitpod.io/#https://github.com/meysamhadeli/chat-signalr-sample"><img alt="Open in Gitpod" src="https://gitpod.io/button/open-in-gitpod.svg"/></a>
 
 # Table of Contents
 
@@ -52,4 +52,4 @@ dotnet run --project Application2/Application2.csproj
 ```
 
 ## License
-This project is made available under the MIT license. See [LICENSE](https://github.com/meysamhadeli/chat-signalar-sample/blob/main/LICENSE) for details.
+This project is made available under the MIT license. See [LICENSE](https://github.com/meysamhadeli/chat-signalr-sample/blob/main/LICENSE) for details.
